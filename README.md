@@ -17,7 +17,7 @@ npm start
 # for dew version with nodemon
 npm run dev
 ```
-Or you can user start.bat for start program.
+Or you can use start.bat for start program.
 ## Swagger
 http://localhost:3000/api-docs/
 
