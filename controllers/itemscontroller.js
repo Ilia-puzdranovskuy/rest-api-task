@@ -13,9 +13,11 @@ class itemController {
         if (errors.errors.length!=0) {
             return res.status(422).json(errors.errors)
         }
-
+        if (req.headers.authorization==undefined) {
+            return res.status(401).json()
+        }
         try {
-            const token = req.headers.authorization;
+            const token = req.headers.authorization.split(" ")[1];
             const decodedData = jwt.verify(token, secret);
             const user = await Users.findOne({_id:decodedData.id});
             if (!token) {
@@ -28,7 +30,6 @@ class itemController {
             item.save();
             return res.status(200).json(item)
         } catch (e) {
-  
             if(e.name =="JsonWebTokenError"){
               return  res.status(401).json();
             }
@@ -41,7 +42,6 @@ class itemController {
         const seachParams = url.parse(req.url, true).query;
         try{
             let item 
-    
             if(seachParams.orderBy == "price"){
                 if(seachParams.orderType =="asc"){
                     item= await Items.find({$or:[{
@@ -52,7 +52,6 @@ class itemController {
                         title:seachParams.title},
                         {user_id:seachParams.userId}]}).sort({price:-1})
                 }
-                 
             }else{
                 if(seachParams.orderType =="asc"){
                     item= await Items.find({$or:[{
@@ -62,13 +61,10 @@ class itemController {
                     item= await Items.find({$or:[{
                         title:seachParams.title},
                         {user_id:seachParams.userId}]}).sort({createdAt:-1})
-                }
-                 
+                } 
             }
-
         return res.status(200).json(item)
     } catch (e) {
-        console.log(e)
         res.status(400).json({message: 'searchError'})
     }
     }
@@ -86,16 +82,14 @@ class itemController {
         }
     }
 
-
     async updateItem(req,res){
 
         const errors = validationResult(req)
         if (errors.errors.length!=0) {
             return res.status(422).json(errors.errors)
         }
-
         try{
-            const token = req.headers.authorization;
+            const token = req.headers.authorization.split(" ")[1];
             if (!token) {
                 return res.status(403).json()
             }
@@ -107,25 +101,19 @@ class itemController {
             
             let item = await Items.findByIdAndUpdate(req.params.id,req.body);
             await item.save()
-
-            console.log(req.body);
             let updateItem = await Items.findById(req.params.id);
             return res.status(200).json(updateItem)
         } catch (e) {
-
-            console.log(e)
             if(e.name =="JsonWebTokenError"){
                 return  res.status(401).json();
               }
               return res.status(404).json();
-           
         }
     }
 
-
     async deleteItem(req,res){
         try{
-            const token = req.headers.authorization;
+            const token = req.headers.authorization.split(" ")[1];
             if (!token) {
                 return res.status(403).json()
             }
@@ -135,7 +123,6 @@ class itemController {
                 return res.status(401).json()
             }
             let item = await Items.findByIdAndDelete(req.params.id);
- 
        
             return res.status(200).json()
         } catch (e) {
@@ -146,4 +133,4 @@ class itemController {
 
 }
 
-module.exports = new itemController()
+module.exports = new itemController();

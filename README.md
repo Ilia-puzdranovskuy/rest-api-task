@@ -1,7 +1,7 @@
 # rest-api-task
 Task for trainee: Rest-API
-
-
+DB: MongoDB
+DB can use all
 
 ## Installation
 ```bash
@@ -17,4 +17,7 @@ npm start
 npm run dev
 ```
 
-Db is empty!
+## Swagger
+http://localhost:3000/api-docs/
+
+All swagger test ./routes/swagger.js

@@ -3,7 +3,6 @@ const { check } = require('express-validator');
 const router = new Router();
 const controller = require("../controllers/itemscontroller");
 
-
 router.post('/items', [
     check('title', " Cannot be empty").notEmpty(),
     check('price', "Invalid price format").custom(value => {
@@ -13,11 +12,11 @@ router.post('/items', [
             return new Error("Invalid price format")
         }
     })
-], controller.createItem)
+], controller.createItem);
 
-router.get('/items', controller.serchItem)
+router.get('/items', controller.serchItem);
 
-router.get('/items/:id', controller.getItemById)
+router.get('/items/:id', controller.getItemById);
 
 router.put('/items/:id',[
     check('title', " Cannot be empty").optional().notEmpty(),
@@ -28,11 +27,8 @@ router.put('/items/:id',[
             return new Error("Invalid price format")
         }
     })
-], controller.updateItem)
+], controller.updateItem);
 
-router.delete('/items/:id', controller.deleteItem)
+router.delete('/items/:id', controller.deleteItem);
 
-// router.get('/users/me',controller.getCurentUser)
-
-
-module.exports = router
+module.exports = router;
