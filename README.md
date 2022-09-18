@@ -1,7 +1,8 @@
 # rest-api-task
 Task for trainee: Rest-API
-DB: MongoDB
-DB can use all
+## DataBase
+DB: MongoDB. All can use DB.
+
 
 ## Installation
 ```bash
